@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: mainMedium;
+  src: url("./assets/fonts/FiraGO-Medium.otf");
+}
+@font-face {
+  font-family: main;
+  src: url("./assets/fonts/FiraGO-Regular.otf");
+}
+@font-face {
+  font-family: mainSemiBold;
+  src: url("./assets/fonts/FiraGO-SemiBold.otf");
+}
+@font-face {
+  font-family: mainBold;
+  src: url("./assets/fonts/FiraGO-Bold.otf");
+}
+.content_container {
+  width: 100%;
+  max-width: 1390px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1500px) {
+  .content_container {
+    width: 1200px;
+  }
+}
+@media (max-width: 1330px) {
+  .content_container {
+    width: 1100px;
+  }
+}
+@media (max-width: 1200px) {
+  .content_container {
+    width: 1000px;
+  }
+}
+@media (max-width: 1100px) {
+  .content_container {
+    width: 900px;
+  }
+}
+@media (max-width: 1000px) {
+  .content_container {
+    width: 800px;
+  }
+}
+@media (max-width: 900px) {
+  .content_container {
+    width: 700px;
+  }
+}
+
+@media (max-width: 800px) {
+  .content_container {
+    width: 600px;
+  }
+}
+@media (max-width: 700px) {
+  .content_container {
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
