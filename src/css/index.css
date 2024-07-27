@@ -18,6 +18,9 @@
   font-family: mainBold;
   src: url("../assets/fonts/FiraGO-Bold.otf");
 }
+:root {
+  --main: #e71d36;
+}
 body {
   font-family: mainMedium;
   letter-spacing: 1px;
@@ -31,6 +34,25 @@ body {
   width: 100%;
   max-width: 1390px;
   margin: 0 auto;
+}
+
+.Loader {
+  height: 70px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 8px solid transparent;
+  border-top: 8px solid var(--main);
+  border-bottom: 8px solid var(--main);
+  animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 1500px) {
@@ -72,7 +94,7 @@ body {
 @media (max-width: 700px) {
   .content_container {
     width: 100%;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }

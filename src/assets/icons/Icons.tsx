@@ -63,3 +63,18 @@ export const LeftArrowIcon = (props: any) => (
     />
   </svg>
 );
+export const CloseIcon = (props: any) => (
+  <svg
+    {...props}
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M6.99839 8.13666L12.8601 14L13.9984 12.8633L8.13505 7L13.9984 1.13826L12.8617 0L6.99839 5.86334L1.13666 0L0 1.13826L5.86174 7L0 12.8617L1.13666 14L6.99839 8.13666Z"
+      fill="white"
+    />
+  </svg>
+);

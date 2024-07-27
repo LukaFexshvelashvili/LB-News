@@ -1,75 +1,92 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LikeIcon, TimerIcon, ViewIcon } from "../../assets/icons/Icons";
 import newsImage from "../../assets/images/1.jfif";
+import axiosCall, { image_url_start } from "../../api/axiosCall";
+import { useParams } from "react-router-dom";
+import { WebLoader } from "../../App";
+import {
+  CheckLike,
+  SetStorageFavorite,
+  SetStorageLike,
+  useDebounce,
+} from "../../components/functions/AddonFunctions";
+
+export type Tnews = {
+  id: number;
+  main_image: string;
+  title: string;
+  second_title: string;
+  description: string;
+  second_image: string;
+  second_description: string;
+  views: number;
+  likes: number;
+  create_date: string;
+};
 
 export default function News() {
+  const params = useParams();
+  const firstRender = useRef<boolean>(true);
+  const [loader, setLoader] = useState<boolean>(true);
+  const [news, setNews] = useState<Tnews | null>(null);
+  useEffect(() => {
+    if (firstRender.current) {
+      axiosCall
+        .get("article?id=" + params.id, { withCredentials: true })
+        .then((res) => {
+          if (res.data.status == 100) {
+            setNews(res.data.article);
+          }
+          setLoader(false);
+        });
+      firstRender.current = false;
+    }
+  }, []);
+
   return (
-    <main className="py-[50px]">
+    <main className="py-[50px] mobile:py-3">
+      {loader ? <WebLoader /> : null}
       <div className="content_container">
-        <main className="flex gap-3">
+        <main className="flex gap-3 medium:flex-col">
           <section className="flex flex-[3] flex-col gap-4 p-1">
-            <NewsStarter />
+            {news?.id ? <NewsStarter news={news} setNews={setNews} /> : null}
+
             <div className="flex items-center justify-end gap-6">
               <div className="flex gap-3 items-center font-mainBold text-info">
                 <LikeIcon
                   className={`h-[20px] aspect-square [&>path]:transition-colors [&>path]:fill-info`}
                 />{" "}
-                252
+                {news?.likes}
               </div>
               <div className="flex gap-3 items-center font-mainBold text-info">
                 <ViewIcon
                   className={`h-[20px] aspect-square [&>path]:transition-colors [&>path]:fill-info`}
                 />{" "}
-                3300
+                {news?.views}
               </div>
             </div>
 
-            <h1 className="text-title text-[22px] text-center">სათაური</h1>
-            <p className="text-description text-[18px] text-start leading-9">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius
-              molestiae officia consectetur, reprehenderit explicabo error
-              numquam ipsam officiis architecto pariatur provident voluptatum,
-              labore facere repellat sed. Vel, nemo dicta. Qui. reprehenderit
-              explicabo error numquam ipsam officiis architecto pariatur
-              provident voluptatum, labore facere repellat sed. Vel, nemo dicta.
-              Qui. reprehenderit explicabo error numquam ipsam officiis
-              architecto pariatur provident voluptatum, labore facere repellat
-              sed. Vel, nemo dicta. Qui. reprehenderit explicabo error numquam
-              ipsam officiis architecto pariatur provident voluptatum, labore
-              facere repellat sed. Vel, nemo dicta. Qui.
+            <h1 className="text-title text-[22px] text-center">
+              {news?.second_title}
+            </h1>
+            <p className="text-description text-[18px] text-start leading-9 mobile:text-center">
+              {news?.description}
             </p>
             <div className="w-full h-[200px] my-5 bg-loaderBg rounded-lg flex justify-center items-center text-inputPlaceholder text-[18px] font-mainBold">
               რეკლამა
             </div>
-            <p className="text-description text-[18px] text-start leading-9">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius
-              molestiae officia consectetur, reprehenderit explicabo error
-              numquam ipsam officiis architecto pariatur provident voluptatum,
-              labore facere repellat sed. Vel, nemo dicta. Qui. reprehenderit
-              explicabo error numquam ipsam officiis architecto pariatur
-              provident voluptatum, labore facere repellat sed. Vel, nemo dicta.
-              Qui. reprehenderit explicabo error numquam ipsam officiis
-              architecto pariatur provident voluptatum, labore facere repellat
-              sed. Vel, nemo dicta. Qui. reprehenderit explicabo error numquam
-              ipsam officiis architecto pariatur provident voluptatum, labore
-              facere repellat sed. Vel, nemo dicta. Qui. reprehenderit explicabo
-              error numquam ipsam officiis architecto pariatur provident
-              voluptatum, labore facere repellat sed. Vel, nemo dicta. Qui.
-              reprehenderit explicabo error numquam ipsam officiis architecto
-              pariatur provident voluptatum, labore facere repellat sed. Vel,
-              nemo dicta. Qui. reprehenderit explicabo error numquam ipsam
-              officiis architecto pariatur provident voluptatum, labore facere
-              repellat sed. Vel, nemo dicta. Qui. reprehenderit explicabo error
-              numquam ipsam officiis architecto pariatur provident voluptatum,
-              labore facere repellat sed. Vel, nemo dicta. Qui.
+            <p className="text-description text-[18px] text-start leading-9 mobile:text-center">
+              {news?.second_description}
             </p>
-            <div className=" relative w-full h-[300px] bg-loaderBg rounded-lg overflow-hidden">
-              <img
-                src={newsImage}
-                className="absolute top-0 left-0 w-full h-full object-cover  rounded-xl"
-                alt="news photo"
-              />
-            </div>
+            {news?.second_image ? (
+              <div className=" relative w-full h-[300px] mobileSm2:h-[200px] bg-loaderBg rounded-lg overflow-hidden ">
+                <img
+                  src={image_url_start + news.second_image}
+                  className="absolute top-0 left-0 w-full h-full object-cover rounded-xl"
+                  alt={news.title}
+                />
+              </div>
+            ) : null}
             <div className="w-full h-[150px] mt-3 bg-loaderBg rounded-lg flex justify-center items-center text-inputPlaceholder text-[18px] font-mainBold">
               რეკლამა
             </div>
@@ -87,29 +104,54 @@ export default function News() {
     </main>
   );
 }
-function NewsStarter() {
-  const [favorite, setFavorite] = useState<boolean>(false);
-  const [like, setLike] = useState<boolean>(false);
+function NewsStarter({ news, setNews }: { news: Tnews; setNews: Function }) {
+  const [favorite, setFavorite] = useState<boolean>(CheckLike(news.id));
+  const [like, setLike] = useState<boolean>(CheckLike(news.id));
+  const firstRender = useRef<boolean>(true);
+  const isLiked = useRef<boolean>(CheckLike(news.id));
+  const LikeSet = useDebounce(like, 1200);
+  const handleLike = (state: boolean) => {
+    setLike(state);
+    setNews({
+      ...news,
+      likes:
+        news?.likes !== undefined ? news.likes + (state == true ? 1 : -1) : 0,
+    });
+  };
+  const handleFavorite = (state: boolean) => {
+    setFavorite(state);
+    SetStorageFavorite(state, news.id);
+  };
+
+  useEffect(() => {
+    if (!firstRender.current && isLiked.current !== like) {
+      axiosCall.get("article_like?id=" + news?.id + "&like=" + like);
+      SetStorageLike(like, news.id);
+      isLiked.current = like;
+    } else {
+      firstRender.current = false;
+    }
+  }, [LikeSet]);
 
   return (
-    <div className=" relative w-full h-[300px] bg-loaderBg rounded-lg overflow-hidden">
+    <div className=" relative w-full h-[300px] mobileSm2:h-[200px] bg-loaderBg rounded-lg overflow-hidden">
       <img
-        src={newsImage}
+        src={image_url_start + news?.main_image}
         className="absolute top-0 left-0 w-full h-full object-cover  rounded-xl"
-        alt="news photo"
+        alt={news?.title}
       />
-      <div className="absolute pt-5 px-5 z-10 flex w-full justify-between items-start">
-        <h1 className=" font-main tracking-wider  text-white text-[18px]">
-          ტრამპის მკვლელობის მცდელობა
+      <div className="absolute pt-5 px-5 z-10 flex w-full justify-between items-start mobile:flex-col-reverse">
+        <h1 className=" font-main tracking-wider  text-white text-[18px] mobile:text-center mobile:w-full">
+          {news?.title}
         </h1>
-        <div className="flex gap-3 ">
+        <div className="flex gap-3 mobile:justify-center mobile:w-full">
           <button
-            onClick={() => setLike((state) => !state)}
+            onClick={() => handleLike(!like)}
             className={`cursor-pointer  ${
               like
                 ? "bg-white hover:bg-whiteFade"
                 : "bg-iconBg hover:bg-iconBgHover"
-            } h-[42px] aspect-square rounded-lg flex  justify-center items-center transition-colors `}
+            } h-[42px] aspect-square rounded-lg flex  justify-center items-center transition-colors`}
           >
             <LikeIcon
               className={`h-[20px] aspect-square [&>path]:transition-colors ${
@@ -118,7 +160,9 @@ function NewsStarter() {
             />
           </button>
           <button
-            onClick={() => setFavorite((state) => !state)}
+            onClick={() => {
+              handleFavorite(!favorite);
+            }}
             className={`cursor-pointer  ${
               favorite
                 ? "bg-white hover:bg-whiteFade"
@@ -133,7 +177,7 @@ function NewsStarter() {
           </button>
         </div>
       </div>
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-bodyBg"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-0% from-blackFade via-60% via-transparent"></div>
     </div>
   );
 }
