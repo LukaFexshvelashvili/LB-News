@@ -1,10 +1,19 @@
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import navLogo from "../../assets/icons/starter.png";
 import { CloseIcon, SearchIcon, TimerIcon } from "../../assets/icons/Icons";
 import HoverTitle from "../global/HoverTitle";
 import { SmallArticle } from "../global/Article";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { OutsideClickClose } from "../global/OutsideClickClose";
+import axiosCall from "../../api/axiosCall";
+import { Tarticle } from "../../pages/Search/Search";
+import { useDebounce } from "../functions/AddonFunctions";
+import { ContentLoader } from "../../App";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -66,10 +75,14 @@ function SearchArticles(props: {
     ? searchParams.get("search")
     : "";
 
+  const [articles, setArticles] = useState<Tarticle[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(searchGet);
   const params = new URLSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
+  const debounce = useDebounce(search, 500);
   const handleForm = (e: FormEvent) => {
     e.preventDefault();
     props.setSearchOpen(false);
@@ -77,6 +90,21 @@ function SearchArticles(props: {
     setOpen(false);
     navigate(`/search?${params.toString()}`);
   };
+  useEffect(() => {
+    if (search.length >= 1) {
+      setLoader(true);
+      axiosCall.get("fast_search?search=" + search).then((res) => {
+        if (res.data.status == 100) {
+          setArticles(res.data.articles);
+        }
+        setLoader(false);
+      });
+    }
+  }, [debounce]);
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
   return (
     <OutsideClickClose
       className="mobile:h-full relative z-10"
@@ -123,8 +151,8 @@ function SearchArticles(props: {
           </button>
           <div
             className={`mobile:top-[50px] mobile:w-full mobile:rounded-none ${
-              open ? "visible max-h-[384px]" : "invisible max-h-0"
-            } origin-top absolute w-full  h-[384px] bg-navBg rounded-lg shadow-lg left-0 top-[60px] overflow-hidden transition-all duration-300`}
+              open ? "visible max-h-[424px]" : "invisible max-h-0"
+            } origin-top absolute w-full  h-[424px] bg-navBg rounded-lg shadow-lg left-0 top-[60px] overflow-hidden transition-all duration-300`}
           >
             {/* <p className="text-description text-[14px] text-center my-3">
               მსგავსი სტატია ვერ მოიძებნა
@@ -132,11 +160,29 @@ function SearchArticles(props: {
             {/* <p className="text-description text-[14px] text-center my-3">
               იძებნება...
             </p> */}
-            <div className="flex flex-col w-full">
-              <SmallArticle maxWidth />
-              <SmallArticle maxWidth />
-              <SmallArticle maxWidth />
-              <SmallArticle maxWidth />
+            <div className="relative flex flex-col w-full h-full">
+              {loader ? <ContentLoader /> : null}
+              {articles.map((article: Tarticle) => (
+                <SmallArticle data={article} maxWidth />
+              ))}
+              {articles.length == 0 && search.length > 1 ? (
+                <p className="text-center mt-5 text-description text-[14px] font-mainMedium">
+                  სტატია ვერ მოიძებნა
+                </p>
+              ) : null}
+              {articles.length == 0 && search.length == 0 ? (
+                <p className="text-center mt-5 text-description text-[14px] font-mainMedium">
+                  ჩაწერეთ საძიებო სიტყვა
+                </p>
+              ) : null}
+              {articles.length == 4 ? (
+                <Link
+                  to={"/search?search=" + search}
+                  className="text-center flex items-center justify-center h-[40px] text-description text-[14px] font-mainMedium hover:bg-whiteHover"
+                >
+                  მეტის ნახვა
+                </Link>
+              ) : null}
             </div>
           </div>
         </form>

@@ -16,6 +16,7 @@ export default {
         mainClearHover: "rgba(231, 29, 53, 0.15)",
         bodyBg: "#F4F4F4",
         navBg: "#FFFFFF",
+        whiteTitle: "rgba(255, 255, 255, 0.8)",
         white: "#FFFFFF",
         whiteHover: "#f7f7f7",
         dark: "rgba(0, 0, 0, 0.8)",

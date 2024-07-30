@@ -71,6 +71,7 @@ export default function Article(props: {
   );
 }
 export function SmallArticle(props: {
+  data: Tarticle;
   autoWidth?: boolean;
   maxWidth: boolean;
 }) {
@@ -81,17 +82,25 @@ export function SmallArticle(props: {
         props.maxWidth ? "w-full" : props.autoWidth ? "w-auto" : "w-[475px]"
       } "max-w-[475px]" p-2 transition-colors hover:bg-whiteHover items-center`}
     >
-      <div className="cursor-pointer bg-loaderBg aspect-video h-[80px] rounded-lg"></div>
+      <div className="relative cursor-pointer bg-loaderBg aspect-video h-[80px] min-w-[130px] overflow-hidden rounded-lg">
+        <Link to={"/news/" + props.data.id}>
+          <img
+            className="absolute top-0 left-0 h-full w-full rounded-lg"
+            src={image_url_start + props.data.main_image}
+            alt={props.data.title}
+          />
+        </Link>
+      </div>
       <div className="h-full flex flex-col  gap-1 select-none">
         <h2 className="cursor-pointer text-title max-w-[150px] overflow-hidden text-[13px] text-ellipsis text-nowrap tracking-wide">
-          სათაური
+          <Link to={"/news/" + props.data.id}>{props.data.title}</Link>
         </h2>
         <p className="cursor-pointer text-description font-main max-w-[450px] text-[13px] overflow-hidden tracking-wide line-clamp-2 text-ellipsis">
-          სათაური სათაუ რისათაური სათაური სათაური სათაური სათაუ რისათაური
-          სათაური სათაური
+          <Link to={"/news/" + props.data.id}>{props.data.description}</Link>
         </p>
       </div>
       <button
+        type="button"
         onClick={() => setFavorite((state) => !state)}
         className={`cursor-pointer  ${
           favorite ? "bg-mainClear hover:bg-mainClearHover" : ""

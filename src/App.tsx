@@ -51,3 +51,10 @@ export function WebLoader() {
     </div>
   );
 }
+export function ContentLoader() {
+  return (
+    <div className="absolute bg-bodyBg top-0 left-0 h-full w-full flex z-40 justify-center items-center">
+      <div className="Loader relative z-10"></div>
+    </div>
+  );
+}

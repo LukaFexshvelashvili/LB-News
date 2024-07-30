@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { LikeIcon, TimerIcon, ViewIcon } from "../../assets/icons/Icons";
-import newsImage from "../../assets/images/1.jfif";
 import axiosCall, { image_url_start } from "../../api/axiosCall";
 import { useParams } from "react-router-dom";
 import { WebLoader } from "../../App";
@@ -26,22 +25,19 @@ export type Tnews = {
 
 export default function News() {
   const params = useParams();
-  const firstRender = useRef<boolean>(true);
   const [loader, setLoader] = useState<boolean>(true);
   const [news, setNews] = useState<Tnews | null>(null);
   useEffect(() => {
-    if (firstRender.current) {
-      axiosCall
-        .get("article?id=" + params.id, { withCredentials: true })
-        .then((res) => {
-          if (res.data.status == 100) {
-            setNews(res.data.article);
-          }
-          setLoader(false);
-        });
-      firstRender.current = false;
-    }
-  }, []);
+    setLoader(true);
+    axiosCall
+      .get("article?id=" + params.id, { withCredentials: true })
+      .then((res) => {
+        if (res.data.status == 100) {
+          setNews(res.data.article);
+        }
+        setLoader(false);
+      });
+  }, [params.id]);
 
   return (
     <main className="py-[50px] mobile:py-3">

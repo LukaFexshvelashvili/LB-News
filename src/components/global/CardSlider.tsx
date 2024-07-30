@@ -2,12 +2,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { LeftArrowIcon } from "../../assets/icons/Icons";
 import Article from "./Article";
 import { Tarticle } from "../../pages/Search/Search";
 import { FreeMode } from "swiper/modules";
-export default function CardSlider(props: { articles: Tarticle[] }) {
+function CardSlider(props: { articles: Tarticle[] }) {
   const swiperRef = useRef<any>(null);
   return (
     <div className="relative flex items-center py-6 mobile:py-3">
@@ -62,3 +62,4 @@ export default function CardSlider(props: { articles: Tarticle[] }) {
     </div>
   );
 }
+export default memo(CardSlider);
