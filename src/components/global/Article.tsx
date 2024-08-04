@@ -3,13 +3,16 @@ import { TimerIcon } from "../../assets/icons/Icons";
 import { Tarticle } from "../../pages/Search/Search";
 import { image_url_start } from "../../api/axiosCall";
 import { Link } from "react-router-dom";
+import { isFavorite, toggleFavorite } from "../functions/ServerFunctions";
+import { useDispatch } from "react-redux";
 
 export default function Article(props: {
   data: Tarticle;
   autoWidth?: boolean;
   maxWidth?: boolean;
 }) {
-  const [favorite, setFavorite] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const [favorite, setFavorite] = useState<boolean>(isFavorite(props.data.id));
 
   return (
     <div
@@ -51,7 +54,10 @@ export default function Article(props: {
           </p>{" "}
         </Link>
         <button
-          onClick={() => setFavorite((state) => !state)}
+          onClick={() => {
+            setFavorite((state) => !state);
+            toggleFavorite(dispatch, props.data.id);
+          }}
           className={`cursor-pointer  ${
             favorite
               ? "bg-main hover:bg-mainHover"

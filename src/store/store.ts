@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import WebSlice from "./WebSlice";
+import UserSlice from "./UserSlice";
 
 export const store = configureStore({
   reducer: {
     web: WebSlice,
+    user: UserSlice,
   },
 });
 

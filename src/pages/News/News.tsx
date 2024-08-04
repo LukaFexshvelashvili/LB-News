@@ -9,6 +9,11 @@ import {
   SetStorageLike,
   useDebounce,
 } from "../../components/functions/AddonFunctions";
+import {
+  isFavorite,
+  toggleFavorite,
+} from "../../components/functions/ServerFunctions";
+import { useDispatch } from "react-redux";
 
 export type Tnews = {
   id: number;
@@ -101,7 +106,8 @@ export default function News() {
   );
 }
 function NewsStarter({ news, setNews }: { news: Tnews; setNews: Function }) {
-  const [favorite, setFavorite] = useState<boolean>(CheckLike(news.id));
+  const dispatch = useDispatch();
+  const [favorite, setFavorite] = useState<boolean>(isFavorite(news.id));
   const [like, setLike] = useState<boolean>(CheckLike(news.id));
   const firstRender = useRef<boolean>(true);
   const isLiked = useRef<boolean>(CheckLike(news.id));
@@ -157,7 +163,10 @@ function NewsStarter({ news, setNews }: { news: Tnews; setNews: Function }) {
           </button>
           <button
             onClick={() => {
-              handleFavorite(!favorite);
+              {
+                handleFavorite(!favorite);
+                toggleFavorite(dispatch, news.id);
+              }
             }}
             className={`cursor-pointer  ${
               favorite

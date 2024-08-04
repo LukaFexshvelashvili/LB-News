@@ -3,14 +3,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const WebSlice = createSlice({
   name: "Web",
   initialState: {
-    loader: true,
+    loader: { active: false, opacity: false },
   },
   reducers: {
-    setLoader: (state, action: PayloadAction<boolean>) => {
-      state.loader = action.payload;
+    setWebLoader: (
+      state,
+      action: PayloadAction<{ active: boolean; opacity?: boolean }>
+    ) => {
+      state.loader = {
+        active: action.payload.active,
+        opacity: action.payload.active ? action.payload.active : false,
+      };
     },
   },
 });
 
-export const { setLoader } = WebSlice.actions;
+export const { setWebLoader } = WebSlice.actions;
 export default WebSlice.reducer;

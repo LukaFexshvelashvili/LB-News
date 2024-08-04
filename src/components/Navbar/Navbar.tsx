@@ -8,7 +8,7 @@ import navLogo from "../../assets/icons/starter.png";
 import { CloseIcon, SearchIcon, TimerIcon } from "../../assets/icons/Icons";
 import HoverTitle from "../global/HoverTitle";
 import { SmallArticle } from "../global/Article";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { OutsideClickClose } from "../global/OutsideClickClose";
 import axiosCall from "../../api/axiosCall";
 import { Tarticle } from "../../pages/Search/Search";
@@ -80,6 +80,7 @@ function SearchArticles(props: {
   const [loader, setLoader] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(searchGet);
   const params = new URLSearchParams();
+  const inputRef = useRef<null | HTMLInputElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const debounce = useDebounce(search, 500);
@@ -99,11 +100,21 @@ function SearchArticles(props: {
         }
         setLoader(false);
       });
+    } else {
+      setArticles([]);
     }
   }, [debounce]);
   useEffect(() => {
     setOpen(false);
+    props.setSearchOpen(false);
   }, [location.pathname]);
+  useEffect(() => {
+    if (props.searchOpen && inputRef.current) {
+      inputRef.current.focus();
+    } else if (!props.searchOpen && inputRef.current) {
+      inputRef.current.blur();
+    }
+  }, [props.searchOpen]);
 
   return (
     <OutsideClickClose
@@ -122,6 +133,7 @@ function SearchArticles(props: {
             className="defInput mobile:h-full mobile:rounded-none mobile:w-[calc(100%-100px)]"
             onChange={(e) => setSearch(e.target.value)}
             value={search}
+            ref={inputRef}
             onFocus={() => {
               if (!location.pathname.includes("search")) {
                 setOpen(true);

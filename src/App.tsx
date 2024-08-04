@@ -9,14 +9,14 @@ import Upload from "./pages/Upload/Upload";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "./store/store";
-import { setLoader } from "./store/WebSlice";
+import { setWebLoader } from "./store/WebSlice";
 
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const web = useSelector((store: StoreState) => store.web);
   useEffect(() => {
-    dispatch(setLoader(false));
+    dispatch(setWebLoader({ active: false }));
   }, []);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      {web.loader ? <WebLoader /> : null}
+      {web.loader.active ? <WebLoader opacity={web.loader.opacity} /> : null}
       <Navbar />
       <Routes>
         <Route path="/">
@@ -44,9 +44,13 @@ function App() {
 
 export default App;
 
-export function WebLoader() {
+export function WebLoader(opacity?: any) {
   return (
-    <div className="fixed bg-bodyBg top-0 left-0 h-full w-full flex z-40 justify-center items-center">
+    <div
+      className={`fixed bg-bodyBg top-0 left-0 h-full w-full flex z-40 justify-center items-center ${
+        opacity ? "opacity-60" : ""
+      }`}
+    >
       <div className="Loader relative z-10"></div>
     </div>
   );
