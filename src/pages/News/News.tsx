@@ -142,7 +142,7 @@ function NewsStarter({ news, setNews }: { news: Tnews; setNews: Function }) {
         className="absolute top-0 left-0 w-full h-full object-cover  rounded-xl"
         alt={news?.title}
       />
-      <div className="absolute pt-5 px-5 z-10 flex w-full justify-between items-start mobile:flex-col-reverse">
+      <div className="absolute pt-5 px-5 z-10 flex w-full justify-between items-start mobile:gap-5 mobile:flex-col-reverse">
         <h1 className=" font-main tracking-wider  text-white text-[18px] mobile:text-center mobile:w-full">
           {news?.title}
         </h1>

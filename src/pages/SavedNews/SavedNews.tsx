@@ -42,7 +42,7 @@ export default function SavedNews() {
             სია ცარიელია
           </h2>
         ) : (
-          <div className="relatice min-h-[200px] flex gap-5 flex-wrap">
+          <div className="relatice min-h-[50px] flex gap-5 flex-wrap">
             {loader ? (
               <ContentLoader />
             ) : (

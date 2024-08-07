@@ -33,7 +33,7 @@ export default function Home() {
     <main className="py-[50px] mobile:py-3">
       <div className="content_container">
         <div className="w-[95%] mx-auto ">
-          <div className="flex gap-3 justify-between items-center h-[200px] medium:h-auto medium:flex-col">
+          <div className="flex gap-3 justify-between items-center h-[200px] medium:hidden">
             <div className=" relative h-full flex-1 medium:flex-auto overflow-hidden bg-loaderBg rounded-2xl medium:h-[200px] mobile:h-[150px] medium:w-full">
               {articles.mainArticles.length > 0 ? (
                 <>

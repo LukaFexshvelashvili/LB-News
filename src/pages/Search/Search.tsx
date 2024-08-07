@@ -41,7 +41,7 @@ export default function Search() {
           ნაპოვნია: {articles.length} სტატია
         </h2>
 
-        <div className="relatice min-h-[200px] flex gap-5 flex-wrap">
+        <div className="relatice min-h-[50px] flex gap-5 flex-wrap">
           {loader ? <ContentLoader /> : null}
           {articles.map((article: Tarticle, i: number) => (
             <Article key={i} data={article} maxWidth />
