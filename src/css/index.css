@@ -45,7 +45,13 @@ body {
   border-bottom: 8px solid var(--main);
   animation: loading 1s infinite linear;
 }
+.swiper-pagination-bullet {
+  @apply bg-whiteMain opacity-80 transition-[background-color,opacity];
+}
 
+.swiper-pagination-bullet-active {
+  @apply bg-main outline outline-2 outline-whiteMain opacity-100;
+}
 @keyframes loading {
   from {
     transform: rotate(0deg);
@@ -89,6 +95,13 @@ body {
 @media (max-width: 800px) {
   .content_container {
     width: 600px;
+  }
+  .swiper-pagination {
+    text-align: end;
+    padding-right: 15px;
+    --swiper-pagination-bullet-size: 6px;
+    --swiper-pagination-bullet-horizontal-gap: 3px;
+    --swiper-pagination-bottom: 5px;
   }
 }
 @media (max-width: 700px) {

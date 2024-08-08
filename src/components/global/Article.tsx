@@ -41,7 +41,7 @@ export default function Article(props: {
             favorite
               ? "bg-main hover:bg-mainHover"
               : "bg-white hover:bg-whiteHover"
-          } h-[34px] mobile:h-[32px] aspect-square rounded-lg flex absolute bottom-2 right-2 justify-center items-center transition-colors `}
+          } h-[32px] mobile:h-[30px] aspect-square rounded-lg flex absolute bottom-2 right-2 mobile:bottom-1 mobile:right-1 justify-center items-center transition-colors `}
         >
           <TimerIcon
             className={`h-[16px] mobile:h-[14px] aspect-square [&>path]:transition-colors ${

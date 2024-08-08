@@ -6,7 +6,7 @@ export default function HoverTitle(props: {
 }) {
   return (
     <div
-      className={`tracking-widest  pointer-events-none absolute text-center font-mainSemiBold bg-bodyBg rounded-md px-2 py-1 text-[12px] text-title   
+      className={`tracking-widest mobile:hidden pointer-events-none absolute text-center font-mainSemiBold bg-bodyBg rounded-md px-2 py-1 text-[12px] text-title   
           ${
             props.top
               ? "top-[-35px]"

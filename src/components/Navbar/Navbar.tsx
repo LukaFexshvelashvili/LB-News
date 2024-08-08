@@ -23,7 +23,7 @@ export default function Navbar() {
       <div className="content_container flex h-full justify-between items-center">
         <div className="">
           <Link to={"/"}>
-            <img src={navLogo} className="h-[36px] cursor-pointer" />
+            <img src={navLogo} className="h-[28px] cursor-pointer" />
           </Link>
         </div>
         <div
@@ -47,18 +47,18 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSearchOpen(true)}
-            className="h-[20px] aspect-square cursor-pointer right-3 hidden mobile:flex "
+            className="h-[20px] aspect-square cursor-pointer right-3 hidden mobile:flex  items-center justify-center"
           >
-            <SearchIcon className="h-[20px] aspect-square [&>path]:fill-iconGray" />
+            <SearchIcon className="h-[18px] aspect-square [&>path]:fill-iconGray" />
           </button>
           <div className="group relative">
             <Link
               className="h-[36px] aspect-square rounded-lg flex items-center justify-center"
               to={"/saved"}
             >
-              <TimerIcon className="h-[22px] aspect-square cursor-pointer [&>path]:fill-iconGray" />
+              <TimerIcon className="h-[18px] aspect-square cursor-pointer [&>path]:fill-iconGray" />
             </Link>
-            <HoverTitle title="მოგვიანებით სანახავი" bottom left />
+            <HoverTitle title="მოგვიანებით სანახავი" bottom />
           </div>
         </div>
       </div>
